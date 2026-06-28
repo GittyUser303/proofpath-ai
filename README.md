@@ -123,6 +123,35 @@ Then open:
 - Health check: `http://127.0.0.1:8000/api/health`
 - API docs: `http://127.0.0.1:8000/docs`
 
+## Screenshots
+
+### 1. Home Page
+Main landing view of ProofPath with the verification console and workspace.
+
+![Home Page](docs/screenshots/home-page.png)
+
+### 2. Verification Request
+The claim input area where users start an investigation.
+
+![Verification Request](docs/screenshots/verification-request.png)
+
+### 3. Verdict and Citation Inspector
+Readable verdict view showing evidence strength and inspectable source cards.
+
+![Verdict and Citation Inspector](docs/screenshots/verdict-citation-inspector.png)
+
+### 4. TraceBack Trail
+TraceBack interface used to explore earlier accessible appearances and source trail.
+
+![TraceBack Trail](docs/screenshots/traceback-trail.png)
+
+### 5. Process and Source Quality
+Verification workflow timeline along with source reliability scoring.
+
+![Process and Source Quality](docs/screenshots/process-source-quality.png)
+
+
+
 ## Frontend Development
 
 The production app is served by FastAPI from `backend/app/static`. The React source lives in `frontend/` and builds into that static directory:
