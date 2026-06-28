@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ProofPath | Evidence Desk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true">
+      <div class="blob blob-red"></div>
+      <div class="blob blob-teal"></div>
+      <div class="grid-overlay"></div>
+    </div>
+
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-mark">P</span>
+          <span>
+            <strong>ProofPath</strong>
+            <small>Evidence Desk</small>
+          </span>
+        </a>
+        <nav class="topnav" aria-label="Dashboard sections">
+          <a href="#investigate">Investigate</a>
+          <a href="#process">Process</a>
+          <a href="#sources">Sources</a>
+          <a href="#memory">Memory</a>
+        </nav>
+        <div class="top-actions">
+          <button id="themeButton" class="button secondary">Light</button>
+          <a class="button secondary" href="/docs" target="_blank" rel="noreferrer">API</a>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div>
+            <p class="eyebrow">For students, journalists, and careful readers</p>
+            <h1>
+              <span class="line">Check claims</span>
+              <span class="line accent">before you</span>
+              <span class="line">cite them.</span>
+            </h1>
+            <p class="hero-copy">
+              Paste an AI answer, viral claim, article excerpt, or product promise. ProofPath builds a readable
+              evidence trail with citations, provenance, contradictions, and a cautious confidence label.
+            </p>
+          </div>
+          <div class="hero-note">
+            <span>Trust model</span>
+            <strong>Evidence first. Confidence second.</strong>
+            <p>Scores are shown as directional labels, not fake precision.</p>
+            <div class="trust-dots">
+              <span class="dot teal"></span>
+              <span class="dot mid"></span>
+              <span class="dot red"></span>
+            </div>
+          </div>
+        </section>
+
+        <section id="investigate" class="workspace-grid">
+          <section class="card intake-card">
+            <div class="card-head">
+              <div>
+                <p class="section-label">Verification request</p>
+                <h2>What should we check?</h2>
+              </div>
+              <button id="sampleButton" class="button secondary">Try example</button>
+            </div>
+            <textarea id="claimInput" class="claim-input" placeholder="Paste a claim, source paragraph, or AI answer...">Drinking cold water after meals causes cancer.</textarea>
+            <div class="intake-footer">
+              <label class="upload-zone">
+                <span class="upload-icon">+</span>
+                <span>
+                  <strong>Add context</strong>
+                  <small>Text, PDF, or screenshot route</small>
+                </span>
+                <input id="fileInput" type="file" accept=".txt,.md,.pdf,image/*,text/*" />
+              </label>
+              <button id="investigateButton" class="button primary">Verify claim →</button>
+            </div>
+            <p id="runStatus" class="status-text">Ready. No citations have been checked yet.</p>
+          </section>
+
+          <div id="memory" class="sidebar-stack">
+            <aside class="card memory-card">
+              <div class="card-head compact">
+                <div>
+                  <p class="section-label">Workspace</p>
+                  <h2>Saved checks</h2>
+                </div>
+                <span id="caseCount" class="quiet-pill">0</span>
+              </div>
+              <input id="userId" class="small-input" value="demo_user" aria-label="Workspace user" />
+              <div class="search-wrap">
+                <span>Search</span>
+                <input id="caseSearch" placeholder="Find previous investigation" />
+              </div>
+              <div id="caseList" class="case-list">
+                <div class="empty-state">No saved investigations yet.</div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="result-band" aria-label="Investigation result summary">
+          <div class="result-tile">
+            <span>Verdict</span>
+            <strong id="verdictMetric">Waiting</strong>
+          </div>
+          <div class="result-tile">
+            <span>Evidence strength</span>
+            <strong id="confidenceMetric">Not checked</strong>
+          </div>
+          <div class="result-tile">
+            <span>Citations</span>
+            <strong id="evidenceMetric">0 reviewed</strong>
+          </div>
+          <div class="result-tile">
+            <span>TraceBack</span>
+            <strong id="traceMetric">Not traced</strong>
+          </div>
+        </section>
+
+        <section class="analysis-layout">
+          <div class="analysis-main">
+            <section class="card verdict-card">
+              <div class="card-head">
+                <div>
+                  <p class="section-label">Readable verdict</p>
+                  <h2 id="claimTitle">Run a verification to open the evidence brief.</h2>
+                </div>
+                <button id="downloadReport" class="button secondary" disabled>Export brief</button>
+              </div>
+              <div class="assessment">
+                <div class="verdict-gauge" aria-label="Final verdict gauge">
+                  <div class="gauge-arc">
+                    <span class="gauge-zone bad"></span>
+                    <span class="gauge-zone warn"></span>
+                    <span class="gauge-zone good"></span>
+                    <span id="gaugeNeedle" class="gauge-needle"></span>
+                  </div>
+                  <div class="gauge-center">
+                    <span id="verdictCategory">Awaiting evidence</span>
+                    <strong id="verdictLabel">No assessment yet</strong>
+                  </div>
+                </div>
+                <div class="verdict-copy">
+                  <p id="reasoningSummary">
+                    ProofPath will summarize what the retrieved sources support, refute, or leave unresolved.
+                  </p>
+                </div>
+              </div>
+              <div class="confidence-row">
+                <span id="confidenceLabel">Evidence strength will appear here.</span>
+                <div class="confidence-track"><div id="confidenceBar"></div></div>
+              </div>
+            </section>
+
+            <section id="process" class="card process-card">
+              <div class="card-head">
+                <div>
+                  <p class="section-label">Work process</p>
+                  <h2 id="workflowTitle">Ready to investigate</h2>
+                </div>
+                <span id="workflowOrb" class="live-pill">Idle</span>
+              </div>
+              <div id="processPulse" class="process-pulse">
+                <span>Standing by</span>
+                <strong>Run a verification to watch the evidence brief being built.</strong>
+              </div>
+              <div id="activityList" class="process-list"></div>
+            </section>
+
+            <section id="sources" class="card sources-card">
+              <div class="tabs">
+                <button class="tab active" data-tab="sourcesPanel">Source cards</button>
+                <button class="tab" data-tab="tracePanel">TraceBack trail</button>
+                <button class="tab" data-tab="contradictionPanel">Contradictions</button>
+              </div>
+              <div id="sourcesPanel" class="tab-panel active"></div>
+              <div id="tracePanel" class="tab-panel"></div>
+              <div id="contradictionPanel" class="tab-panel"></div>
+            </section>
+          </div>
+
+          <aside class="analysis-side">
+            <section class="card map-card">
+              <div class="card-head compact">
+                <div>
+                  <p class="section-label">Source transparency</p>
+                  <h2>Citation inspector</h2>
+                </div>
+              </div>
+              <div class="map-canvas">
+                <div class="claim-chip">Click a source to inspect the evidence card</div>
+                <div id="graphNodes" class="graph-list"></div>
+              </div>
+            </section>
+
+            <section class="card quality-card">
+              <div class="card-head compact">
+                <div>
+                  <p class="section-label">Reliability</p>
+                  <h2>Source quality</h2>
+                </div>
+              </div>
+              <div id="qualityList" class="quality-list"></div>
+            </section>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
